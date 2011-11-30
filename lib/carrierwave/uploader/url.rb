@@ -6,6 +6,10 @@ module CarrierWave
       extend ActiveSupport::Concern
       include CarrierWave::Uploader::Configuration
 
+      def root
+        Rails.root.to_s
+      end
+
       ##
       # === Returns
       #
