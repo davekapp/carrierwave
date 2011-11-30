@@ -6,10 +6,6 @@ module CarrierWave
       extend ActiveSupport::Concern
       include CarrierWave::Uploader::Configuration
 
-      def root
-        Rails.root.to_s
-      end
-
       ##
       # === Returns
       #
@@ -19,7 +15,8 @@ module CarrierWave
         if file.respond_to?(:url) and not file.url.blank?
           file.url
         elsif current_path
-          (base_path || "") + File.expand_path(current_path).gsub(File.expand_path(root), '')
+          root_path = root.nil? ? Rails.root.to_s : root
+          (base_path || "") + File.expand_path(current_path).gsub(File.expand_path(root_path), '')
         end
       end
 
