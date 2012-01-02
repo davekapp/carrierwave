@@ -7,13 +7,17 @@ module CarrierWave
       include CarrierWave::Uploader::Configuration
 
       ##
+      # === Parameters
+      #
+      # [Hash] optional, the query params (only AWS)
+      #
       # === Returns
       #
       # [String] the location where this file is accessible via a url
       #
-      def url
+      def url(options = {})
         if file.respond_to?(:url) and not file.url.blank?
-          file.url
+          file.method(:url).arity == 0 ? file.url : file.url(options)
         elsif current_path
           root_path = root.nil? ? Rails.root.to_s : root
           (base_path || "") + File.expand_path(current_path).gsub(File.expand_path(root_path), '')
